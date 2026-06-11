@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SenThiof</title>
+  <link rel="stylesheet" href="poisson.css" />
+</head>
+
+<body>
+
+  <div id="pageConnexion">
+
+    <div class="aita">
+
+      <div class="aita-gauche">
+
+        <img src="logo.png" alt="Logo SenThiof" class="aita-image" />
+
+        <div class="aita-nom">SenThiof</div>
+
+      </div>
+
+      <div class="aita-droite">
+
+        <div class="logo-zone">
+          <div class="logo-cercle">🐟</div>
+          <div class="nom-app">SenThiof</div>
+        </div>
+
+        <div id="formuConnexion">
+          <p class="titre-connexion">Bienvenue !</p>
+          <p class="sous-titre-connexion">Connectez-vous pour accéder à votre espace</p>
+
+          <form onsubmit="return false">
+
+            <div class="champ">
+              <label for="email">Adresse e-mail</label>
+              <input type="email" id="email" placeholder="exemple@senthiof.sn" />
+            </div>
+
+            <div class="champ">
+              <label for="motdepasse">Mot de passe</label>
+              <input type="password" id="motdepasse" placeholder="••••••••" />
+            </div>
+
+            <div class="erreur" id="messageErreur"></div>
+
+            <button class="bouton-connexion" onclick="seConnecter()">
+              Se connecter →
+            </button>
+
+          </form>
+
+          <p style="text-align: center; margin-top: 16px; font-size: 14px; color: #666;">
+            Pas de compte ? 
+            <a href="#" onclick="afficherInscription(); return false;" style="color: #1565c0; font-weight: 600;">S'inscrire</a>
+          </p>
+        </div>
+
+        <div id="formuInscription" class="cache">
+          <p class="titre-connexion">Créer un compte</p>
+          <p class="sous-titre-connexion">Rejoignez SenThiof dès maintenant !</p>
+
+          <form onsubmit="return false">
+
+            <div class="champ">
+              <label for="nomInscription">Nom complet</label>
+              <input type="text" id="nomInscription" placeholder="Votre nom" />
+            </div>
+
+            <div class="champ">
+              <label for="emailInscription">Adresse e-mail</label>
+              <input type="email" id="emailInscription" placeholder="exemple@senthiof.sn" />
+            </div>
+
+            <div class="champ">
+              <label for="motdepasseInscription">Mot de passe</label>
+              <input type="password" id="motdepasseInscription" placeholder="••••••••" />
+            </div>
+
+            <div class="champ">
+              <label for="confirmerMotdepasse">Confirmer le mot de passe</label>
+              <input type="password" id="confirmerMotdepasse" placeholder="••••••••" />
+            </div>
+
+            <div class="champ">
+              <label for="roleInscription">Je m'inscris en tant que</label>
+              <select id="roleInscription" style="width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background-color: #fafafa;">
+                <option value="client">🛒 Client (Acheter du poisson)</option>
+                <option value="mareyeur">🐟 Mareyeur (Vendre du poisson)</option>
+              </select>
+            </div>
+
+            <div class="erreur" id="messageErreurInscription"></div>
+
+            <button class="bouton-connexion" onclick="sInscrire()">
+              Créer mon compte →
+            </button>
+
+          </form>
+
+          <p style="text-align: center; margin-top: 16px; font-size: 14px; color: #666;">
+            Déjà inscrit ? 
+            <a href="#" onclick="afficherConnexion(); return false;" style="color: #1565c0; font-weight: 600;">Se connecter</a>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="dashboardAdmin" class="cache">
+
+    <nav class="barre-navigation">
+      <div class="logo-barre">
+        <span>🐟</span>
+        <span>SenThiof - Admin</span>
+      </div>
+      <div class="menu-barre">
+        <span id="nomUtilisateurAdmin"></span>
+        <button onclick="seDeconnecter()">🔓 Déconnexion</button>
+      </div>
+    </nav>
+
+    <div class="mise-en-page">
+
+      <aside class="barre-laterale">
+        <div class="element-menu actif">📊 Tableau de bord</div>
+        <div class="element-menu">🐠 Poisson</div>
+        <div class="element-menu">📦 Produits</div>
+        <div class="element-menu">🏪 Stock</div>
+        <div class="element-menu">🛒 Commandes</div>
+      </aside>
+
+      <main class="contenu">
+
+        <h1 class="titre-page">Tableau de bord Admin</h1>
+
+        <div class="metriques">
+          <div class="metrique">
+            <div class="etiquette">Transactions</div>
+            <div class="valeur" id="nbLignesAdmin">—</div>
+            <div class="unite">entrées</div>
+          </div>
+          <div class="metrique">
+            <div class="etiquette">Quantité totale</div>
+            <div class="valeur" id="totalQteAdmin">—</div>
+            <div class="unite">kg</div>
+          </div>
+          <div class="metrique">
+            <div class="etiquette">Montant total</div>
+            <div class="valeur" id="totalMontantAdmin">—</div>
+            <div class="unite">FCFA</div>
+          </div>
+          <div class="metrique">
+            <div class="etiquette">Top produit</div>
+            <div class="valeur" id="topProduitAdmin">—</div>
+            <div class="unite">ce mois</div>
+          </div>
+        </div>
+
+        <div class="section-tableau">
+          <h2>Transactions récentes</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Montant total</th>
+              </tr>
+            </thead>
+            <tbody id="corpsTableauAdmin"></tbody>
+          </table>
+        </div>
+
+        <div class="totaux">
+          <p>Nombre de transactions : <strong id="totalTransactionsAdmin">—</strong></p>
+          <p>Montant général : <strong id="totalGeneralAdmin">—</strong> FCFA</p>
+        </div>
+
+      </main>
+    </div>
+
+  </div>
+
+  <div id="dashboardClient" class="cache">
+
+    <nav class="barre-navigation">
+      <div class="logo-barre">
+        <span>🐟</span>
+        <span>SenThiof - Client</span>
+      </div>
+      <div class="menu-barre">
+        <span id="nomUtilisateurClient"></span>
+        <button onclick="seDeconnecter()">🔓 Déconnexion</button>
+      </div>
+    </nav>
+
+    <main class="contenu" style="padding: 40px;">
+      <h1 class="titre-page">Mes Commandes</h1>
+
+      <div class="section-tableau">
+        <h2>Vos commandes</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Produit</th>
+              <th>Quantité</th>
+              <th>Montant</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="corpsTableauClient"></tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 40px; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px solid #ff9800;">
+        <h2>🛒 Votre panier</h2>
+        <table style="width: 100%; margin-bottom: 20px;">
+          <thead>
+            <tr>
+              <th>Produit</th>
+              <th>Quantité</th>
+              <th>Prix unitaire</th>
+              <th>Montant</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="corpsPanier"></tbody>
+        </table>
+        <div style="text-align: right; font-size: 18px; font-weight: bold; margin-bottom: 20px;">
+          Total panier : <span id="totalPanier">0 FCFA</span>
+        </div>
+        <button class="bouton-connexion" style="background: #4caf50;" onclick="validerCommande()">
+          ✅ Valider la commande
+        </button>
+      </div>
+
+      <div style="margin-top: 40px; padding: 20px; background: #f5f5f5; border-radius: 8px;">
+        <h2>Ajouter au panier</h2>
+        <form onsubmit="return false">
+          <div class="champ">
+            <label for="produit">Produit</label>
+            <select id="produit">
+              <option>Thiof</option>
+              <option>Yakh</option>
+              <option>Capitaine</option>
+              <option>Carpe</option>
+              <option>Sole</option>
+            </select>
+          </div>
+          <div class="champ">
+            <label for="quantiteCmd">Quantité (kg)</label>
+            <input type="number" id="quantiteCmd" placeholder="50" />
+          </div>
+          <button class="bouton-connexion" onclick="ajouterAuPanier()">
+            ➕ Ajouter au panier
+          </button>
+        </form>
+      </div>
+    </main>
+
+  </div>
+
+
+  <script src="data.js"></script>
+  <script src="connexion.js"></script>
+  <script src="client.js"></script>
+  <script src="poisson.js"></script>
+
+</body>
+</html>
